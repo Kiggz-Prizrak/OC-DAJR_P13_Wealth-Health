@@ -1,3 +1,10 @@
+const departments = [
+  { label: "Sales" },
+  { label: "Marketing" },
+  { label: "Engineering" },
+  { label: "Legal" },
+];
+
 const states = [
   {
     name: "Alabama",
@@ -237,4 +244,4 @@ const states = [
   },
 ];
 
-export  {states}
+export { states, departments };
