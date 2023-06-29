@@ -2,20 +2,23 @@ import "./styles.css";
 
 import Select from "react-select";
 
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import DatePicker from "react-multi-date-picker";
+import { Calendar } from "react-multi-date-picker";
+
+
 import { useForm, Controller, useController } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-// import DatePicker from "react-multi-date-picker";
+import { useDispatch } from "react-redux";
+import { addToEmployeesList } from "../../store/employeesSlice";
 
 import { states, departments } from "../../variables";
 
-const Form = (/*{ setModalIsOpen }*/) => {
-  console.log(states);
+const Form = ({ setModalIsOpen }) => {
 
+  const dispatch = useDispatch();
   const subForm = (data) => {
-    console.log(data);
-    // setIsValid(true);
+    setModalIsOpen(true);
+    dispatch(addToEmployeesList(data));
   };
 
   const { register, handleSubmit, control, formState } = useForm();
@@ -47,11 +50,11 @@ const Form = (/*{ setModalIsOpen }*/) => {
           enterKeyHint="next"
           {...register("firstname", {
             required: "please provide this field",
-            pattern: {
-              value:
-                /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/,
-              message: "please provide valid data",
-            },
+            // pattern: {
+            //   value:
+            //     /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/,
+            //   message: "please provide valid data",
+            // },
           })}
         />
         <p className="errorMessage">{errors.firstname?.message}</p>
@@ -66,11 +69,11 @@ const Form = (/*{ setModalIsOpen }*/) => {
           enterKeyHint="next"
           {...register("lastname", {
             required: "please provide this field",
-            pattern: {
-              value:
-                /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/,
-              message: "please provide valid data",
-            },
+            // pattern: {
+            //   value:
+            //     /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/,
+            //   message: "please provide valid data",
+            // },
           })}
         />
         <p className="errorMessage">{errors.lastname?.message}</p>
@@ -78,7 +81,7 @@ const Form = (/*{ setModalIsOpen }*/) => {
 
       <div className="labelContainer">
         <label htmlFor="birthdate">Birth Date</label>
-        <input
+        {/* <input
           type="date"
           id="birthdate"
           className={errors.birthdate?.message ? "errorInput" : "input"}
@@ -87,12 +90,37 @@ const Form = (/*{ setModalIsOpen }*/) => {
             required: "please provide this field",
           })}
         ></input>
-        <p className="errorMessage">{errors.birthdate?.message}</p>
+        <p className="errorMessage">{errors.birthdate?.message}</p> */}
+
+        <Controller
+          control={control}
+          name="birthdate"
+          rules={{ required: true }} //optional
+          render={({
+            field: { onChange, name, value },
+            formState: { errors }, //optional, but necessary if you want to show an error message
+          }) => (
+            <>
+              <div>
+                <DatePicker
+                  placeholder=""
+                  value={value || ""}
+                  onChange={(date) => {
+                    onChange(date?.isValid ? date : "");
+                  }}
+                />
+              </div>
+              {errors && errors[name] && errors[name].type === "required" && (
+                <p className="errorMessage">Veuillez saisir une date valide</p>
+              )}
+            </>
+          )}
+        />
       </div>
 
       <div className="labelContainer">
         <label htmlFor="startDate">Start Date</label>
-        <input
+        {/* <input
           type="date"
           id="startDate"
           className={errors.startDate?.message ? "errorInput" : "input"}
@@ -100,7 +128,33 @@ const Form = (/*{ setModalIsOpen }*/) => {
           {...register("startDate", {
             required: "please provide this field",
           })}
-        ></input>
+        ></input> */}
+
+        <Controller
+          control={control}
+          name="startDate"
+          rules={{ required: true }} //optional
+          render={({
+            field: { onChange, name, value },
+            formState: { errors }, //optional, but necessary if you want to show an error message
+          }) => (
+            <>
+              <div>
+                <DatePicker
+                  placeholder=""
+                  value={value || ""}
+                  onChange={(date) => {
+                    onChange(date?.isValid ? date : "");
+                  }}
+                />
+              </div>
+              {errors && errors[name] && errors[name].type === "required" && (
+                <p className="errorMessage">Veuillez saisir une date valide</p>
+              )}
+            </>
+          )}
+        />
+
         <p className="errorMessage">{errors.startDate?.message}</p>
       </div>
 
@@ -136,11 +190,11 @@ const Form = (/*{ setModalIsOpen }*/) => {
             enterKeyHint="next"
             {...register("city", {
               required: "please provide this field",
-              pattern: {
-                value:
-                  /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/,
-                message: "please provide valid data",
-              },
+              // pattern: {
+              //   value:
+              //     /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/,
+              //   message: "please provide valid data",
+              // },
             })}
           />
           <p className="errorMessage">{errors.city?.message}</p>
@@ -213,7 +267,7 @@ const Form = (/*{ setModalIsOpen }*/) => {
         <p className="errorMessage">{errors.departments?.message}</p>
       </div>
 
-      <button type="submit" className="checkForm-submit ">
+      <button type="submit" className="submit ">
         Save
       </button>
       <DevTool control={control} />

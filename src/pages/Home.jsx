@@ -7,7 +7,13 @@ import { useState } from "react";
 
 
 
+
+
+
 const Home = () => {
+
+   
+
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
 return (
@@ -16,7 +22,7 @@ return (
     <NavLink to="/employees-list">View Current Employees</NavLink>
     <h2>Create Employee</h2>
     <Form setModalIsOpen={setModalIsOpen} />
-    {modalIsOpen ? <Modal /> : ""}
+    {modalIsOpen ? <Modal setModalIsOpen={setModalIsOpen} /> : ""}
   </>
 );  
 }
