@@ -7,6 +7,7 @@ const employeesSlice = createSlice({
   },
   reducers: {
     addToEmployeesList: (state, action) => {
+      console.log(action.payload)
       state.employees.push({ ...action.payload });
     },
   },

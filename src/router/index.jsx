@@ -17,16 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        // loader: () => {
-        //   return getAllArticles();
-        // },
       },
       {
         path: "/employees-list",
         element: <EmployeesList />,
-        // loader: ({ params }) => {
-        //   return getOneArticles(params.id);
-        // },
       },
     ],
   },
